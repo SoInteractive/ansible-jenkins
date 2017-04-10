@@ -17,7 +17,6 @@ jenkins_plugins:
   - "github-api"
   - "github-branch-source"
   - "github"
-  - "blueocean-project"
   - "blueocean-autofavorite"
   - "blueocean-commons"
   - "blueocean-config"
