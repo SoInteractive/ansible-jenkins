@@ -17,15 +17,13 @@
     enabled: yes
 
 - name: Wait for Jenkins to start up before proceeding.
-  uri:
-    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/cli/"
-    status_code: 200
+  shell: "curl -D - --silent --max-time 5 http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/cli/"
   register: result
-  until: ("'Please wait' not in result.content")
+  until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("200 OK") != -1) and (result.stdout.find("Please wait while") == -1)
   retries: 60
   delay: 5
   changed_when: false
-  always_run: yes
+  check_mode: no
 
 - name: Get the jenkins-cli jarfile from the Jenkins server.
   get_url:
@@ -35,7 +33,7 @@
   until: "'OK' in jarfile_get.msg or 'file already exists' in jarfile_get.msg"
   retries: 5
   delay: 10
-  always_run: yes
+  check_mode: no
 
 - name: Remove Jenkins security init scripts after first startup.
   file:
