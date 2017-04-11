@@ -21,14 +21,6 @@
     update_cache: yes
   when: ansible_os_family == 'Debian'
 
-- name: Install Jenkins from repository.
-  apt:
-    name: jenkins
-    state: installed
-  when: ansible_os_family == 'Debian'
-  register: jenkins_fresh_install
-
-
 #REDHAT
 - name: Ensure dependencies are installed.
   package:
@@ -54,5 +46,4 @@
   package:
     name: jenkins
     state: installed
-  when: ansible_os_family == 'RedHat'
   register: jenkins_fresh_install

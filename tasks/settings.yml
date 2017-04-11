@@ -1,4 +1,8 @@
 ---
+
+- debug:
+    var: jenkins_fresh_install
+
 - name: Modify variables in init file
   lineinfile:
     dest: "{{ jenkins_init_file }}"
