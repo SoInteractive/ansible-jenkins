@@ -19,8 +19,9 @@
 - name: Wait for Jenkins to start up before proceeding.
   uri:
     url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/cli/"
+    status_code: 200
   register: result
-  until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("200 OK") != -1) and (result.stdout.find("Please wait while") == -1)
+  until: ("'Please wait' not in result.content")
   retries: 60
   delay: 5
   changed_when: false
