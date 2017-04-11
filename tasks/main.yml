@@ -17,7 +17,8 @@
     enabled: yes
 
 - name: Wait for Jenkins to start up before proceeding.
-  shell: "curl -D - --silent --max-time 5 http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/cli/"
+  uri:
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/cli/"
   register: result
   until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("200 OK") != -1) and (result.stdout.find("Please wait while") == -1)
   retries: 60

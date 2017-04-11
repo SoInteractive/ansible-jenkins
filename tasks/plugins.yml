@@ -11,9 +11,9 @@
   register: jenkins_plugins_folder_create
 
 - name: Update Jenkins plugin data.
-  shell: curl -L https://updates.jenkins-ci.org/update-center.json | sed '1d;$d' > "{{ jenkins_home }}/updates/default.json"
-  args:
-    creates: "{{ jenkins_home }}/updates/default.json"
+  get_url:
+    url: "https://updates.jenkins-ci.org/update-center.json"
+    dest: "{{ jenkins_home }}/updates/default.json"
 
 - name: Permissions for default.json updates info.
   file:
