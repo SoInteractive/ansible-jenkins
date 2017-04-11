@@ -1,0 +1,56 @@
+---
+#DEBIAN
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - curl
+      - apt-transport-https
+    state: installed
+  when: ansible_os_family == 'Debian'
+
+- name: Add Jenkins apt repository key.
+  apt_key:
+    url: "{{ jenkins_repo_key_url }}"
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Add Jenkins apt repository.
+  apt_repository:
+    repo: "{{ jenkins_repo_url }}"
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Install Jenkins from repository.
+  apt:
+    name: jenkins
+    state: installed
+  when: ansible_os_family == 'Debian'
+
+
+#REDHAT
+- name: Ensure dependencies are installed.
+  package:
+    name:
+      - curl
+      - libselinux-python
+    state: installed
+  when: ansible_os_family == 'RedHat'
+
+- name: Ensure Jenkins repo is installed.
+  get_url:
+    url: "{{ jenkins_repo_url }}"
+    dest: /etc/yum.repos.d/jenkins.repo
+  when: ansible_os_family == 'RedHat'
+
+- name: Add Jenkins repo GPG key.
+  rpm_key:
+    state: present
+    key: "{{ jenkins_repo_key_url }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: Install Jenkins from repository.
+  package:
+    name: jenkins
+    state: installed
+  when: ansible_os_family == 'RedHat'

@@ -10,24 +10,9 @@
       "{{ jenkins_init_changes }}"
   register: jenkins_init_prefix
 
-- name: Set the Jenkins home directory
-  lineinfile:
-    dest: "{{ jenkins_init_file }}"
-    regexp: '^JENKINS_HOME=.*'
-    line: 'JENKINS_HOME={{ jenkins_home }}'
-  register: jenkins_home_config
-
 - name: Immediately restart Jenkins on init config changes.
   service: name=jenkins state=restarted
   when: jenkins_init_prefix.changed
-
-- name: Set HTTP port in Jenkins config.
-  lineinfile:
-    backrefs: yes
-    dest: "{{ jenkins_init_file }}"
-    regexp: '^{{ jenkins_http_port_param }}='
-    line: '{{ jenkins_http_port_param }}={{ jenkins_http_port }}'
-  register: jenkins_http_config
 
 - name: Create custom init scripts directory.
   file:

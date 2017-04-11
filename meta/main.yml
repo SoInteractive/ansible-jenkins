@@ -1,27 +1,23 @@
 ---
-dependencies:
-  - java
-
 galaxy_info:
-  author: geerlingguy
+  author: Tomasz Grzesik
   description: Jenkins CI
-  company: "Midwestern Mac, LLC"
+  company: "SoInteractive"
   license: "license (BSD, MIT)"
   min_ansible_version: 2.0
   platforms:
   - name: EL
     versions:
-    - 6
     - 7
-  - name: Fedora
-    versions:
-    - all    
   - name: Debian
     versions:
-    - all
+    - 8
   - name: Ubuntu
     versions:
-    - all
+    - xenial
   galaxy_tags:
     - development
     - packaging
+
+dependencies:
+  - java
