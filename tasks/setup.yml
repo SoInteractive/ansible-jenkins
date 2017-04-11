@@ -26,6 +26,7 @@
     name: jenkins
     state: installed
   when: ansible_os_family == 'Debian'
+  register: jenkins_fresh_install
 
 
 #REDHAT
@@ -54,3 +55,4 @@
     name: jenkins
     state: installed
   when: ansible_os_family == 'RedHat'
+  register: jenkins_fresh_install

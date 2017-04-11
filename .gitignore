@@ -2,10 +2,3 @@
 tests/test.sh
 .idea
 .travis.yml
-
-mniej generycznosci
-nginx - hostname do wyjebania
-    jenkins_url_prefix: "" do wyjebania
-docker z pluginow w pizdu
-github
-sbt
