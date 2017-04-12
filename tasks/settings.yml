@@ -1,8 +1,4 @@
 ---
-
-- debug:
-    var: jenkins_fresh_install
-
 - name: Modify variables in init file
   lineinfile:
     dest: "{{ jenkins_init_file }}"
@@ -15,7 +11,9 @@
   register: jenkins_init_prefix
 
 - name: Immediately restart Jenkins on init config changes.
-  service: name=jenkins state=restarted
+  service: 
+    name: jenkins
+    state: restarted
   when: jenkins_init_prefix.changed
 
 - name: Create custom init scripts directory.
@@ -34,5 +32,7 @@
   when: jenkins_fresh_install.changed
 
 - name: Immediately restart Jenkins on user changes.
-  service: name=jenkins state=restarted
+  service:
+    name: jenkins
+    state: restarted
   when: (jenkins_users_config is defined and jenkins_users_config.changed)
