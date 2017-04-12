@@ -18,6 +18,7 @@ galaxy_info:
   galaxy_tags:
     - development
     - packaging
+    - CI
 
 dependencies:
   - java
