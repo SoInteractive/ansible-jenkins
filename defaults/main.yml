@@ -32,6 +32,23 @@ jenkins_plugins:
   - "ssh-credentials"
   - "ssh-slaves"
 
+jenkins_plugins_check_docker: "0"
+jenkins_plugins_docker:
+  - "docker-build-publish"
+  - "docker-commons"
+  - "docker-plugin"
+  - "docker-workflow"
+  - "sbt"
+
+jenkins_plugins_check_github: "0"
+jenkins_plugins_github:
+  - "github"
+  - "github-api"
+  - "github-branch-source"
+
+
+
+
 jenkins_java_options: "-Djenkins.install.runSetupWizard=false"
 
 jenkins_admin_username: admin

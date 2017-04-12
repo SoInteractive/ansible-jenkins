@@ -32,4 +32,27 @@
     creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
   with_items: "{{ jenkins_plugins }}"
   when: jenkins_admin_password != ""
+
+- name: Install Jenkins Docker plugins using password.
+  command: >
+    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
+    install-plugin {{ item }}
+    --username {{ jenkins_admin_username }}
+    --password {{ jenkins_admin_password }}
+    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+  with_items: "{{ jenkins_plugins_docker }}"
+  when: (jenkins_admin_password != "") and (jenkins_plugins_check_docker == "1")
+
+- name: Install Jenkins GitHub plugins using password.
+  command: >
+    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ je$
+    install-plugin {{ item }}
+    --username {{ jenkins_admin_username }}
+    --password {{ jenkins_admin_password }}
+    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+  with_items: "{{ jenkins_plugins_github }}"
+  when: (jenkins_admin_password != "") and (jenkins_plugins_check_github == "1")
+
+- name: Jenkins restart
+  command: echo 'ready to go - i need to restart jenkins last time'
   notify: restart jenkins
