@@ -5,7 +5,7 @@ node {
     currentBuild.result = "SUCCESS"
 
     try {
-        ws('workspace/jenkins') {
+     /*   ws('workspace/jenkins') { */
 
             stage('Checkout code') {
                 checkout scm
@@ -39,10 +39,10 @@ node {
                     /* acceptGitLabMR() */
                     mattermostSend channel: 'repositories', color: 'good', endpoint: 'https://chat.sointeractive.pl/hooks/kt9i54xiq7bqzf471sjcsaiknr', message: "Job ${JOB_NAME} ${BUILD_NUMBER} zakończony powodzeniem (<${BUILD_URL}|Open>)"
                 }
-        }
+        /*}*/
     }
     catch (err) {
-        mattermostSend channel: 'repositories', color: 'bad', endpoint: 'https://chat.sointeractive.pl/hooks/kt9i54xiq7bqzf471sjcsaiknr', message: "Job ${JOB_NAME} ${BUILD_NUMBER} zakończony niepowodzeniem (<${BUILD_URL}|Open>)"
+        mattermostSend channel: 'repositories', color: 'danger', endpoint: 'https://chat.sointeractive.pl/hooks/kt9i54xiq7bqzf471sjcsaiknr', message: "Job ${JOB_NAME} ${BUILD_NUMBER} zakończony niepowodzeniem (<${BUILD_URL}|Open>)"
         currentBuild.result = "FAILURE"
         throw err
     }
