@@ -7,47 +7,14 @@ jenkins_home: /var/lib/jenkins
 jenkins_hostname: localhost
 jenkins_http_port: 8080
 jenkins_jar_location: /opt/jenkins-cli.jar
-jenkins_plugins:
-  - "git"
-  - "git-client"
-  - "git-server"
-  - "blueocean-autofavorite"
-  - "blueocean-commons"
-  - "blueocean-config"
-  - "blueocean-dashboard"
-  - "blueocean-display-url"
-  - "blueocean-events"
-  - "blueocean-i18n"
-  - "blueocean-jwt"
-  - "blueocean-personalization"
-  - "blueocean-pipeline-api-impl"
-  - "blueocean-rest-impl"
-  - "blueocean-rest"
-  - "blueocean-web"
-  - "blueocean"
-  - "credentials"
-  - "credentials-binding"
-  - "dashboard-view"
-  - "ssh-agent"
-  - "ssh-credentials"
-  - "ssh-slaves"
 
 jenkins_plugins_check_docker: "0"
-jenkins_plugins_docker:
-  - "docker-build-publish"
-  - "docker-commons"
-  - "docker-plugin"
-  - "docker-workflow"
-  - "sbt"
+
+jenkins_plugins_check_gitlab: "0"
 
 jenkins_plugins_check_github: "0"
-jenkins_plugins_github:
-  - "github"
-  - "github-api"
-  - "github-branch-source"
 
-
-
+jenkins_plugins_check_additional: "0"
 
 jenkins_java_options: "-Djenkins.install.runSetupWizard=false"
 
