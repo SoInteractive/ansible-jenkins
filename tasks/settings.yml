@@ -11,7 +11,7 @@
   register: jenkins_init_prefix
 
 - name: Immediately restart Jenkins on init config changes.
-  service: 
+  service:
     name: jenkins
     state: restarted
   when: jenkins_init_prefix.changed
