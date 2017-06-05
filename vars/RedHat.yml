@@ -2,6 +2,7 @@
 jenkins_dependencies:
   - curl
   - libselinux-python
+  - initscripts
 
 jenkins_repo_url: https://pkg.jenkins.io/redhat/jenkins.repo
 jenkins_repo_key_url: https://pkg.jenkins.io/redhat/jenkins.io.key
