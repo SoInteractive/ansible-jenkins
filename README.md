@@ -20,3 +20,7 @@ Use it in a playbook as follows:
 
 Have a look at the [defaults/main.yml](defaults/main.yml) for role variables
 that can be overridden.
+
+# TODO
+
+  - Java for CentOS support - currently manual java installation is required to use this role.
