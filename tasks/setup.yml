@@ -26,6 +26,12 @@
     dest: /etc/yum.repos.d/jenkins.repo
   when: ansible_os_family == 'RedHat'
 
+- name: Add Jenkins repo GPG key.
+  rpm_key:
+    state: present
+    key: "{{ jenkins_repo_key_url }}"
+  when: ansible_os_family == 'RedHat'
+
 - name: Install Jenkins from repository.
   package:
     name: jenkins
