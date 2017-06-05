@@ -2,3 +2,9 @@
 tests/test.sh
 .idea
 .travis.yml
+*.swp
+*.swo
+*.idea
+.molecule
+.cache
+**__pycache__**

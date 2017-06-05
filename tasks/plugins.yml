@@ -30,8 +30,31 @@
     --username {{ jenkins_admin_username }}
     --password {{ jenkins_admin_password }}
     creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
-  with_items: "{{ jenkins_plugins }}"
-  when: jenkins_admin_password != ""
+  with_items:
+    - "git"
+    - "git-client"
+    - "blueocean-autofavorite"
+    - "blueocean-commons"
+    - "blueocean-config"
+    - "blueocean-dashboard"
+    - "blueocean-display-url"
+    - "blueocean-events"
+    - "blueocean-i18n"
+    - "blueocean-jwt"
+    - "blueocean-personalization"
+    - "blueocean-pipeline-api-impl"
+    - "blueocean-rest-impl"
+    - "blueocean-rest"
+    - "blueocean-web"
+    - "blueocean"
+    - "credentials"
+    - "credentials-binding"
+    - "dashboard-view"
+    - "ssh-agent"
+    - "ssh-credentials"
+    - "ssh-slaves"
+    - "greenballs"
+    - "mattermost"
 
 - name: Install Jenkins Docker plugins using password.
   command: >
@@ -40,8 +63,27 @@
     --username {{ jenkins_admin_username }}
     --password {{ jenkins_admin_password }}
     creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
-  with_items: "{{ jenkins_plugins_docker }}"
-  when: (jenkins_admin_password != "") and (jenkins_plugins_check_docker == "1")
+  with_items:
+    - "docker-build-publish"
+    - "docker-commons"
+    - "docker-plugin"
+    - "docker-workflow"
+    - "sbt"
+  when: jenkins_plugins_check_docker == "1"
+
+  - name: Install Jenkins GitLab plugins using password.
+    command: >
+      java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
+      install-plugin {{ item }}
+      --username {{ jenkins_admin_username }}
+      --password {{ jenkins_admin_password }}
+      creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+    with_items:
+      - "gitlab-hook"
+      - "gitlab-merge-request-jenkins"
+      - "gitlab-oauth"
+      - "gitlab-plugin"
+    when: jenkins_plugins_check_gitlab == "1"
 
 - name: Install Jenkins GitHub plugins using password.
   command: >
@@ -50,8 +92,21 @@
     --username {{ jenkins_admin_username }}
     --password {{ jenkins_admin_password }}
     creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
-  with_items: "{{ jenkins_plugins_github }}"
-  when: (jenkins_admin_password != "") and (jenkins_plugins_check_github == "1")
+  with_items:
+    - "github"
+    - "github-api"
+    - "github-branch-source"
+  when: jenkins_plugins_check_github == "1"
+
+- name: Install Jenkins additional plugins using password.
+  command: >
+    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
+    install-plugin {{ item }}
+    --username {{ jenkins_admin_username }}
+    --password {{ jenkins_admin_password }}
+    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+  with_items: "{{ additional_plugins | default([]) }}"
+  when: jenkins_plugins_check_additional == "1"
 
 - name: Jenkins restart
   command: echo 'ready to go - i need to restart jenkins last time'
