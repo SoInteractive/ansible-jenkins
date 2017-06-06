@@ -10,7 +10,7 @@ docker:
     - name: jenkins-xenial
       image: ubuntu
       image_version: xenial
-    - name: jenkins-centos
-      image: centos/systemd
-      image_version: latest
-      privileged: true
+#    - name: jenkins-centos
+#      image: centos/systemd
+#      image_version: latest
+#      privileged: true
