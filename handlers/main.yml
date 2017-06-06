@@ -3,3 +3,9 @@
   service:
     name: jenkins
     state: restarted
+
+- name: basic security
+  template:
+    src: basic-security.groovy
+    dest: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+  notify: restart jenkins

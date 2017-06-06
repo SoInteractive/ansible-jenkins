@@ -14,22 +14,25 @@
   get_url:
     url: "https://updates.jenkins-ci.org/update-center.json"
     dest: "{{ jenkins_home }}/updates/default.json"
-
-- name: Permissions for default.json updates info.
-  file:
-    path: "{{ jenkins_home }}/updates/default.json"
     owner: jenkins
     group: jenkins
     mode: 0755
-  when: jenkins_plugins_folder_create.changed
 
-- name: Install Jenkins plugins using password.
-  command: >
-    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
-    install-plugin {{ item }}
-    --username {{ jenkins_admin_username }}
-    --password {{ jenkins_admin_password }}
-    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+#- name: Install Jenkins plugins using password.
+#  command: >
+#    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
+#    install-plugin {{ item }}
+#    --username {{ jenkins_admin_username }}
+#    --password {{ jenkins_admin_password }}
+#    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+
+- name: install plugins
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
   with_items:
     - "git"
     - "git-client"
