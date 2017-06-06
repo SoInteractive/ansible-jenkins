@@ -6,9 +6,6 @@
 # Setup/install tasks.
 - include: setup.yml
 
-# Configure Jenkins init settings.
-- include: settings.yml
-
 # Make sure Jenkins starts, then configure Jenkins.
 - name: Ensure Jenkins is started and runs on startup.
   service:
@@ -16,14 +13,28 @@
     state: started
     enabled: yes
 
-- name: Wait for Jenkins to start up before proceeding.
-  shell: "curl -D - --silent --max-time 5 http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/cli/"
-  register: result
-  until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("200 OK") != -1) and (result.stdout.find("Please wait while") == -1)
+#- name: "Wait for Jenkins CLI to come up"
+#  uri:
+#    url: "http://127.0.0.1:8080/"
+#    status_code: 200
+#  register: result
+#  until: result.status == 200
+#  retries: 20
+#  delay: 10
+
+- name: Wait for Jenkins to start up
+  uri:
+    url: http://localhost:8080
+    status_code: 200
+    timeout: 5
+  register: jenkins_service_status
+  # Keep trying for 5 mins in 5 sec intervals
   retries: 60
   delay: 5
-  changed_when: false
-  check_mode: no
+  until: >
+     'status' in jenkins_service_status and
+     jenkins_service_status['status'] == 200
+
 
 - name: Get the jenkins-cli jarfile from the Jenkins server.
   get_url:

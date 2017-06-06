@@ -14,45 +14,96 @@
   get_url:
     url: "https://updates.jenkins-ci.org/update-center.json"
     dest: "{{ jenkins_home }}/updates/default.json"
-
-- name: Permissions for default.json updates info.
-  file:
-    path: "{{ jenkins_home }}/updates/default.json"
     owner: jenkins
     group: jenkins
     mode: 0755
-  when: jenkins_plugins_folder_create.changed
 
-- name: Install Jenkins plugins using password.
-  command: >
-    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
-    install-plugin {{ item }}
-    --username {{ jenkins_admin_username }}
-    --password {{ jenkins_admin_password }}
-    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
-  with_items: "{{ jenkins_plugins }}"
-  when: jenkins_admin_password != ""
+- name: install plugins
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
+  with_items:
+    - "git"
+    - "git-client"
+    - "blueocean-autofavorite"
+    - "blueocean-commons"
+    - "blueocean-config"
+    - "blueocean-dashboard"
+    - "blueocean-display-url"
+    - "blueocean-events"
+    - "blueocean-i18n"
+    - "blueocean-jwt"
+    - "blueocean-personalization"
+    - "blueocean-pipeline-api-impl"
+    - "blueocean-rest-impl"
+    - "blueocean-rest"
+    - "blueocean-web"
+    - "blueocean"
+    - "credentials"
+    - "credentials-binding"
+    - "dashboard-view"
+    - "ssh-agent"
+    - "ssh-credentials"
+    - "ssh-slaves"
+    - "greenballs"
+    - "mattermost"
+  notify: restart jenkins
 
-- name: Install Jenkins Docker plugins using password.
-  command: >
-    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
-    install-plugin {{ item }}
-    --username {{ jenkins_admin_username }}
-    --password {{ jenkins_admin_password }}
-    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
-  with_items: "{{ jenkins_plugins_docker }}"
-  when: (jenkins_admin_password != "") and (jenkins_plugins_check_docker == "1")
+- name: install docker
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
+  with_items:
+    - "docker-build-publish"
+    - "docker-commons"
+    - "docker-plugin"
+    - "docker-workflow"
+    - "sbt"
+  when: jenkins_plugins_check_docker
+  notify: restart jenkins
 
-- name: Install Jenkins GitHub plugins using password.
-  command: >
-    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
-    install-plugin {{ item }}
-    --username {{ jenkins_admin_username }}
-    --password {{ jenkins_admin_password }}
-    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
-  with_items: "{{ jenkins_plugins_github }}"
-  when: (jenkins_admin_password != "") and (jenkins_plugins_check_github == "1")
+- name: install plugins gitlab
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
+  with_items:
+      - "gitlab-hook"
+      - "gitlab-merge-request-jenkins"
+      - "gitlab-oauth"
+      - "gitlab-plugin"
+  when: jenkins_plugins_check_gitlab
+  notify: restart jenkins
 
-- name: Jenkins restart
-  command: echo 'ready to go - i need to restart jenkins last time'
+- name: install plugins github
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
+  with_items:
+    - "github"
+    - "github-api"
+    - "github-branch-source"
+  when: jenkins_plugins_check_github
+  notify: restart jenkins
+
+- name: install plugins additional
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
+  with_items: "{{ additional_plugins | default([]) }}"
+  when: jenkins_plugins_check_additional
   notify: restart jenkins

@@ -26,8 +26,38 @@
     dest: /etc/yum.repos.d/jenkins.repo
   when: ansible_os_family == 'RedHat'
 
+- name: Add Jenkins repo GPG key.
+  rpm_key:
+    state: present
+    key: "{{ jenkins_repo_key_url }}"
+  when: ansible_os_family == 'RedHat'
+
 - name: Install Jenkins from repository.
   package:
     name: jenkins
     state: installed
-  register: jenkins_fresh_install
+  notify: basic security
+
+- name: Modify variables in init file
+  lineinfile:
+    dest: "{{ jenkins_init_file }}"
+    insertafter: '^{{ item.option }}='
+    regexp: '^{{ item.option}}=\"\${{ item.option }} '
+    line: '{{ item.option }}="${{ item.option }} {{ item.value }}"'
+    state: present
+  with_items:
+      "{{ jenkins_init_changes }}"
+  notify: restart jenkins
+
+- name: Create custom init scripts directory.
+  file:
+    path: "{{ jenkins_home }}/init.groovy.d"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: 0775
+
+
+
+
+- meta: flush_handlers
