@@ -1,4 +1,4 @@
-<p><img src="https://avatars2.githubusercontent.com/u/18436491?v=3&s=200" alt="sointeractive logo" title="sointeractive" align="right" height="60" /></p>
+<p><img src="https://wiki.jenkins-ci.org/download/attachments/2916393/logo-title.png?version=1&modificationDate=1302753947000&api=v2" alt="jenkins logo" title="jenkins" align="right" height="60" /></p>
 
 Ansible Role: jenkins
 ===================

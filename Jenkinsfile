@@ -16,7 +16,6 @@ pipeline {
   stages {
     stage('Download requirements'){
       steps {
-        sh 'mkdir -p .molecule/roles'
         sh 'ansible-galaxy install -r requirements.yml -p .molecule/roles'
       }
     }
