@@ -14,12 +14,12 @@ pipeline {
     timeout(time: 15, unit: 'MINUTES')
   }
   stages {
-    stage('Dependencies') {
+    stage('Download requirements'){
       steps {
-        sh 'ansible-galaxy install -r requrements.yml -p tests/SoInteractive.Java'
+        sh 'mkdir -p .molecule/roles'
+        sh 'ansible-galaxy install -r requirements.yml -p .molecule/roles'
       }
     }
-
     stage('Check syntax') {
       steps {
         sh 'molecule syntax'
