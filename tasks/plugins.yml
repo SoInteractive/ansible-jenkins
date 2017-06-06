@@ -18,14 +18,6 @@
     group: jenkins
     mode: 0755
 
-#- name: Install Jenkins plugins using password.
-#  command: >
-#    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
-#    install-plugin {{ item }}
-#    --username {{ jenkins_admin_username }}
-#    --password {{ jenkins_admin_password }}
-#    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
-
 - name: install plugins
   jenkins_plugin:
     name: "{{ item }}"
@@ -60,13 +52,13 @@
     - "mattermost"
   notify: restart jenkins
 
-- name: Install Jenkins Docker plugins using password.
-  command: >
-    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
-    install-plugin {{ item }}
-    --username {{ jenkins_admin_username }}
-    --password {{ jenkins_admin_password }}
-    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+- name: install docker
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
   with_items:
     - "docker-build-publish"
     - "docker-commons"
@@ -76,13 +68,13 @@
   when: jenkins_plugins_check_docker
   notify: restart jenkins
 
-- name: Install Jenkins GitLab plugins using password.
-  command: >
-   java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
-   install-plugin {{ item }}
-   --username {{ jenkins_admin_username }}
-   --password {{ jenkins_admin_password }}
-    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+- name: install plugins gitlab
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
   with_items:
       - "gitlab-hook"
       - "gitlab-merge-request-jenkins"
@@ -91,13 +83,13 @@
   when: jenkins_plugins_check_gitlab
   notify: restart jenkins
 
-- name: Install Jenkins GitHub plugins using password.
-  command: >
-    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
-    install-plugin {{ item }}
-    --username {{ jenkins_admin_username }}
-    --password {{ jenkins_admin_password }}
-    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+- name: install plugins github
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
   with_items:
     - "github"
     - "github-api"
@@ -105,13 +97,13 @@
   when: jenkins_plugins_check_github
   notify: restart jenkins
 
-- name: Install Jenkins additional plugins using password.
-  command: >
-    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/
-    install-plugin {{ item }}
-    --username {{ jenkins_admin_username }}
-    --password {{ jenkins_admin_password }}
-    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+- name: install plugins additional
+  jenkins_plugin:
+    name: "{{ item }}"
+    params:
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
+      url: http://localhost:8080
   with_items: "{{ additional_plugins | default([]) }}"
   when: jenkins_plugins_check_additional
   notify: restart jenkins
