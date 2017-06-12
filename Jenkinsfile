@@ -5,7 +5,7 @@ pipeline {
   agent {
     node {
       label 'master'
-      customWorkspace 'workspace/jenkins'
+      customWorkspace 'workspace/hetzner'
     }
   }
   options {
@@ -13,12 +13,11 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '30'))
     timeout(time: 15, unit: 'MINUTES')
   }
+  environment {
+    GIT_COMMITER = sh( script: "git show -s --pretty=%an", returnStdout: true ).trim()
+    GIT_URL = sh( script: "git config --get remote.origin.url", returnStdout: true ).trim()
+  }
   stages {
-    stage('Download requirements'){
-      steps {
-        sh 'ansible-galaxy install -r requirements.yml -p .molecule/roles'
-      }
-    }
     stage('Check syntax') {
       steps {
         sh 'molecule syntax'
@@ -40,6 +39,17 @@ pipeline {
         sh 'molecule verify'
       }
     }
+/*    stage('Accept code'){
+      when { branch "PR-*" }
+      steps {
+        mergeGithubPullRequest {
+          mergeComment('merged by Jenkins')
+          disallowOwnCode()
+          failOnNonMerge()
+          deleteOnMerge()
+        }
+      }
+    }*/
   }
 
   post {
@@ -47,10 +57,10 @@ pipeline {
       sh 'molecule destroy'
     }
     success {
-      mattermostSend color: 'good', message: "No. ${BUILD_NUMBER} test of ${JOB_NAME} has finished successfully. <${RUN_DISPLAY_URL}|More information.>"
+      mattermostSend color: 'good', message: "Pipeline <${RUN_DISPLAY_URL}|#${BUILD_NUMBER}> of <${GIT_URL}|${JOB_NAME}> branch by ${GIT_COMMITER} finished successfully in ${currentBuild.durationString.replaceAll('and counting','')}"
     }
     failure {
-      mattermostSend color: 'danger', message: "No. ${BUILD_NUMBER} test of ${JOB_NAME} has failed. <${RUN_DISPLAY_URL}|More information.>"
+      mattermostSend color: 'danger', message: "Pipeline <${RUN_DISPLAY_URL}|#${BUILD_NUMBER}> of <${GIT_URL}|${JOB_NAME}> branch by ${GIT_COMMITER} failed in ${currentBuild.durationString.replaceAll('and counting','')}"
     }
   }
 }

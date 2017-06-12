@@ -57,7 +57,4 @@
     group: jenkins
     mode: 0775
 
-
-
-
 - meta: flush_handlers

@@ -1,6 +1,4 @@
 ---
-# Jenkins doesn't allow updates via CLI, though that is required before plugins
-# can be installed via CLI. See: https://gist.github.com/rowan-m/1026918
 - name: Create Jenkins updates folder.
   file:
     path: "{{ jenkins_home }}/updates"
@@ -18,7 +16,7 @@
     group: jenkins
     mode: 0755
 
-- name: install plugins
+- name: Install default plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
@@ -52,7 +50,7 @@
     - "mattermost"
   notify: restart jenkins
 
-- name: install docker
+- name: Install docker plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
@@ -68,7 +66,7 @@
   when: jenkins_plugins_check_docker
   notify: restart jenkins
 
-- name: install plugins gitlab
+- name: Install gitlab plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
@@ -83,7 +81,7 @@
   when: jenkins_plugins_check_gitlab
   notify: restart jenkins
 
-- name: install plugins github
+- name: Install github plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
@@ -97,7 +95,7 @@
   when: jenkins_plugins_check_github
   notify: restart jenkins
 
-- name: install plugins additional
+- name: Install additional plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
