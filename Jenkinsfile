@@ -5,7 +5,7 @@ pipeline {
   agent {
     node {
       label 'master'
-      customWorkspace 'workspace/hetzner'
+      customWorkspace 'workspace/jenkins'
     }
   }
   options {
