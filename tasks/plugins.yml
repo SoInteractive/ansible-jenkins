@@ -23,6 +23,7 @@
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
+      timeout: 60
   with_items:
     - "git"
     - "git-client"
@@ -48,10 +49,8 @@
     - "ssh-slaves"
     - "greenballs"
     - "mattermost"
-  register: res
-  until: res.rc == 0
-  retries: 5
-  delay: 5
+  register: result
+  until: result|succeeded
   notify: restart jenkins
 
 - name: Install docker plugins
@@ -61,16 +60,15 @@
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
+      timeout: 60
   with_items:
     - "docker-build-publish"
     - "docker-commons"
     - "docker-plugin"
     - "docker-workflow"
     - "sbt"
-  register: res
-  until: res.stderr == false
-  retries: 5
-  delay: 5
+  register: result
+  until: result|succeeded
   when: jenkins_plugins_check_docker
   notify: restart jenkins
 
@@ -81,15 +79,14 @@
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
+      timeout: 60
   with_items:
       - "gitlab-hook"
       - "gitlab-merge-request-jenkins"
       - "gitlab-oauth"
       - "gitlab-plugin"
-  register: res
-  until: res.stderr == false
-  retries: 5
-  delay: 5
+  register: result
+  until: result|succeeded
   when: jenkins_plugins_check_gitlab
   notify: restart jenkins
 
@@ -100,14 +97,13 @@
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
+      timeout: 60
   with_items:
     - "github"
     - "github-api"
     - "github-branch-source"
-  register: res
-  until: res.rc == 0
-  retries: 5
-  delay: 5
+  register: result
+  until: result|succeeded
   when: jenkins_plugins_check_github
   notify: restart jenkins
 
@@ -118,10 +114,9 @@
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
+      timeout: 60
   with_items: "{{ jenkins_additional_plugins | default([]) }}"
-  register: res
-  until: res.stderr == false
-  retries: 5
-  delay: 5
+  register: result
+  until: result|succeeded
   when: jenkins_plugins_check_additional
   notify: restart jenkins
