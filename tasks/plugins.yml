@@ -1,6 +1,4 @@
 ---
-# Jenkins doesn't allow updates via CLI, though that is required before plugins
-# can be installed via CLI. See: https://gist.github.com/rowan-m/1026918
 - name: Create Jenkins updates folder.
   file:
     path: "{{ jenkins_home }}/updates"
@@ -18,13 +16,14 @@
     group: jenkins
     mode: 0755
 
-- name: install plugins
+- name: Install default plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
+      timeout: 60
   with_items:
     - "git"
     - "git-client"
@@ -50,60 +49,74 @@
     - "ssh-slaves"
     - "greenballs"
     - "mattermost"
+  register: result
+  until: result|succeeded
   notify: restart jenkins
 
-- name: install docker
+- name: Install docker plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
+      timeout: 60
   with_items:
     - "docker-build-publish"
     - "docker-commons"
     - "docker-plugin"
     - "docker-workflow"
     - "sbt"
+  register: result
+  until: result|succeeded
   when: jenkins_plugins_check_docker
   notify: restart jenkins
 
-- name: install plugins gitlab
+- name: Install gitlab plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
+      timeout: 60
   with_items:
       - "gitlab-hook"
       - "gitlab-merge-request-jenkins"
       - "gitlab-oauth"
       - "gitlab-plugin"
+  register: result
+  until: result|succeeded
   when: jenkins_plugins_check_gitlab
   notify: restart jenkins
 
-- name: install plugins github
+- name: Install github plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
+      timeout: 60
   with_items:
     - "github"
     - "github-api"
     - "github-branch-source"
+  register: result
+  until: result|succeeded
   when: jenkins_plugins_check_github
   notify: restart jenkins
 
-- name: install plugins additional
+- name: Install additional plugins
   jenkins_plugin:
     name: "{{ item }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
-  with_items: "{{ additional_plugins | default([]) }}"
+      timeout: 60
+  with_items: "{{ jenkins_additional_plugins | default([]) }}"
+  register: result
+  until: result|succeeded
   when: jenkins_plugins_check_additional
   notify: restart jenkins
