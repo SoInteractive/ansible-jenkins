@@ -13,5 +13,5 @@ galaxy_info:
     - CI
     - jenkins
 
-#dependencies:
-#  - SoInteractive.java
+dependencies:
+  - SoInteractive.java
