@@ -8,3 +8,4 @@ tests/test.sh
 .molecule
 .cache
 **__pycache__**
+*.iml
