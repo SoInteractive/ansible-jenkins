@@ -49,7 +49,7 @@
     - "greenballs"
     - "mattermost"
   register: res
-  until: res.stderr == false
+  until: res.rc == 0
   retries: 5
   delay: 5
   notify: restart jenkins
@@ -105,7 +105,7 @@
     - "github-api"
     - "github-branch-source"
   register: res
-  until: res.stderr == false
+  until: res.rc == 0
   retries: 5
   delay: 5
   when: jenkins_plugins_check_github
