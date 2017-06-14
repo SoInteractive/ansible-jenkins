@@ -5,14 +5,10 @@ jenkins_http_port: 8080
 jenkins_jar_location: /opt/jenkins-cli.jar
 
 jenkins_plugins_check_docker: "0"
-
 jenkins_plugins_check_gitlab: "0"
-
 jenkins_plugins_check_github: "0"
-
 jenkins_plugins_check_additional: "0"
-
-additional_plugins: []
+jenkins_additional_plugins: []
 
 jenkins_java_options: "-Djenkins.install.runSetupWizard=false"
 

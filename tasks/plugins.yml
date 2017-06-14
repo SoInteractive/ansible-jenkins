@@ -48,6 +48,10 @@
     - "ssh-slaves"
     - "greenballs"
     - "mattermost"
+  register: res
+  until: res.stderr == false
+  retries: 5
+  delay: 5
   notify: restart jenkins
 
 - name: Install docker plugins
@@ -63,6 +67,10 @@
     - "docker-plugin"
     - "docker-workflow"
     - "sbt"
+  register: res
+  until: res.stderr == false
+  retries: 5
+  delay: 5
   when: jenkins_plugins_check_docker
   notify: restart jenkins
 
@@ -78,6 +86,10 @@
       - "gitlab-merge-request-jenkins"
       - "gitlab-oauth"
       - "gitlab-plugin"
+  register: res
+  until: res.stderr == false
+  retries: 5
+  delay: 5
   when: jenkins_plugins_check_gitlab
   notify: restart jenkins
 
@@ -92,6 +104,10 @@
     - "github"
     - "github-api"
     - "github-branch-source"
+  register: res
+  until: res.stderr == false
+  retries: 5
+  delay: 5
   when: jenkins_plugins_check_github
   notify: restart jenkins
 
@@ -102,6 +118,10 @@
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
-  with_items: "{{ additional_plugins | default([]) }}"
+  with_items: "{{ jenkins_additional_plugins | default([]) }}"
+  register: res
+  until: res.stderr == false
+  retries: 5
+  delay: 5
   when: jenkins_plugins_check_additional
   notify: restart jenkins
