@@ -11,7 +11,8 @@ jenkins_plugins_check_additional: "0"
 jenkins_additional_plugins: []
 
 jenkins_credentials_id: "123"
-jenkins_credentials_secret: "123"
+jenkins_credentials_description: "Description"
+jenkins_credentials_secret: "secret_text"
 
 jenkins_groovy_scripts:
   - "basic-security.groovy"

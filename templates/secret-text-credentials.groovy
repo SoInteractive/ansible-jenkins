@@ -16,6 +16,6 @@ domain = Domain.global()
 store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 
 secretText = new StringCredentialsImpl(
-        CredentialsScope.GLOBAL, '{{ jenkins_credentials_id }}', "GitHub PR Token", Secret.fromString('{{ jenkins_credentials_secret }}'))
+        CredentialsScope.GLOBAL, '{{ jenkins_credentials_id }}', '{{ jenkins_credentials_description }}', Secret.fromString('{{ jenkins_credentials_secret }}'))
 
 store.addCredentials(domain, secretText)
