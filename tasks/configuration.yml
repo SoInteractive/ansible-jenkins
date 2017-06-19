@@ -29,7 +29,8 @@
   delay: 10
   check_mode: no
 
-- name: Remove Jenkins security init scripts after first startup.
+- name: Remove Jenkins init scripts after first startup.
   file:
-    path: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+    path: "{{ jenkins_home }}/init.groovy.d/{{ item }}"
     state: absent
+  with_items: "{{ jenkins_groovy_scripts }}"

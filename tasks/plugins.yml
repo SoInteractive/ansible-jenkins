@@ -115,7 +115,7 @@
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
       timeout: 60
-  with_items: "{{ jenkins_additional_plugins | default([]) }}"
+  with_items: "{{ jenkins_additional_plugins }}"
   register: result
   until: result|succeeded
   when: jenkins_plugins_check_additional
