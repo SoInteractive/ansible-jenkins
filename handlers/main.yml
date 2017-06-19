@@ -4,8 +4,9 @@
     name: jenkins
     state: restarted
 
-- name: basic security
+- name: groovy scripts
   template:
-    src: basic-security.groovy
-    dest: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+    src: "{{ item }}"
+    dest: "{{ jenkins_home }}/init.groovy.d/{{ item }}"
+  with_items: "{{ jenkins_groovy_scripts | default([]) }}"
   notify: restart jenkins

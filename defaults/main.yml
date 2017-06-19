@@ -10,6 +10,13 @@ jenkins_plugins_check_github: "0"
 jenkins_plugins_check_additional: "0"
 jenkins_additional_plugins: []
 
+jenkins_credentials_id: "123"
+jenkins_credentials_secret: "123"
+
+jenkins_groovy_scripts:
+  - "basic-security.groovy"
+  - "secret-text-credentials.groovy"
+
 jenkins_java_options: "-Djenkins.install.runSetupWizard=false"
 
 jenkins_admin_username: admin
