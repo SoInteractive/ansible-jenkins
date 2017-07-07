@@ -1,6 +1,5 @@
 ---
 jenkins_dependencies:
-  - curl
   - apt-transport-https
 
 jenkins_repo_url: deb https://pkg.jenkins.io/debian binary/

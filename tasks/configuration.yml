@@ -1,4 +1,4 @@
-# Make sure Jenkins starts, then configure Jenkins.
+---
 - name: Ensure Jenkins is started and runs on startup.
   service:
     name: jenkins
@@ -11,7 +11,6 @@
     status_code: 200
     timeout: 5
   register: jenkins_service_status
-  # Keep trying for 5 mins in 5 sec intervals
   retries: 60
   delay: 5
   until: >

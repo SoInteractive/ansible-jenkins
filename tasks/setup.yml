@@ -5,7 +5,6 @@
     state: installed
   with_items: "{{ jenkins_dependencies }}"
 
-#DEBIAN/UBUNTU
 - name: Add Jenkins apt repository key.
   apt_key:
     url: "{{ jenkins_repo_key_url }}"
@@ -19,7 +18,6 @@
     update_cache: yes
   when: ansible_os_family == 'Debian'
 
-#REDHAT
 - name: Ensure Jenkins repo is installed.
   get_url:
     url: "{{ jenkins_repo_url }}"
@@ -36,7 +34,20 @@
   package:
     name: jenkins
     state: installed
-  notify: groovy scripts
+  notify: groovy admin script
+
+- debug:
+    msg: STEP AFTER JENKINS INSTALLATION
+
+- name: Install additional groovy scripts
+  jenkins_script:
+      script: "templates/{{ item }}"
+      user: "{{ jenkins_admin_username }}"
+      password: "{{ jenkins_admin_password }}"
+  with_items: "{{ jenkins_groovy_scripts }}"
+
+- debug:
+    msg: STEP AFTER PLUGINS INSTALLATION
 
 - name: Modify variables in init file
   lineinfile:
