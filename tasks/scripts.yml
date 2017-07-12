@@ -7,9 +7,9 @@
   register: jenkins_service_status
   retries: 60
   delay: 5
-  until: >
-     'status' in jenkins_service_status and
-     jenkins_service_status['status'] == 200
+  until:
+    - ('status' in jenkins_service_status)
+    - (jenkins_service_status['status'] == 200)
 
 - name: Install additional groovy scripts
   jenkins_script:
@@ -17,4 +17,4 @@
       user: "{{ jenkins_admin_username }}"
       password: "{{ jenkins_admin_password }}"
   with_items: "{{ jenkins_scripts_list }}"
-  when: jenkins_additional_scripts
+  when: jenkins_scripts_enable
