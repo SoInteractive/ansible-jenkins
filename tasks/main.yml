@@ -7,3 +7,5 @@
 - include: configuration.yml
 
 - include: plugins.yml
+
+- include: scripts.yml

@@ -1,0 +1,8 @@
+---
+- name: Install additional groovy scripts
+  jenkins_script:
+      script: "{{ lookup('file', '{{ item }}.groovy') }}"
+      user: "{{ jenkins_admin_username }}"
+      password: "{{ jenkins_admin_password }}"
+  with_items: "{{ jenkins_scripts_list }}"
+  when: jenkins_additional_scripts

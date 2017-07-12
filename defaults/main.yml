@@ -26,3 +26,7 @@ jenkins_admin_password_file: ""
 jenkins_init_changes:
   - option: "{{ jenkins_java_options_env_var }}"
     value: "{{ jenkins_java_options }}"
+
+jenkins_additional_scripts: True
+jenkins_scripts_list:
+  - "secret-text-credentials"

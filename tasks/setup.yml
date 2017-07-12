@@ -36,19 +36,6 @@
     state: installed
   notify: groovy admin script
 
-- debug:
-    msg: STEP AFTER JENKINS INSTALLATION
-
-- name: Install additional groovy scripts
-  jenkins_script:
-      script: "templates/{{ item }}"
-      user: "{{ jenkins_admin_username }}"
-      password: "{{ jenkins_admin_password }}"
-  with_items: "{{ jenkins_groovy_scripts }}"
-
-- debug:
-    msg: STEP AFTER PLUGINS INSTALLATION
-
 - name: Modify variables in init file
   lineinfile:
     dest: "{{ jenkins_init_file }}"
