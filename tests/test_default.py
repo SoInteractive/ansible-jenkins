@@ -45,10 +45,9 @@ def test_packages(Package):
 
 
 # def test_socket(Socket):
-#     present = [
-#         # "unix:///run/haproxy/admin.sock",
-#         "tcp://127.0.0.1:8080"
-#     ]
-#     for socket in present:
-#         s = Socket(socket)
-#         assert s.is_listening
+#      present = [
+#          "tcp://127.0.0.1:8080"
+#      ]
+#      for socket in present:
+#          s = Socket(socket)
+#          assert s.is_listening

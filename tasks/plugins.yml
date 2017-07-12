@@ -43,6 +43,7 @@
     - "blueocean"
     - "credentials"
     - "credentials-binding"
+    - "plain-credentials"
     - "dashboard-view"
     - "ssh-agent"
     - "ssh-credentials"
@@ -120,3 +121,5 @@
   until: result|succeeded
   when: jenkins_plugins_check_additional
   notify: restart jenkins
+
+- meta: flush_handlers

@@ -1,6 +1,5 @@
 ---
 jenkins_dependencies:
-  - curl
   - libselinux-python
   - initscripts
 

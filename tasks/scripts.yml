@@ -1,0 +1,20 @@
+---
+- name: Check if Jenkins is ready to execute scripts
+  uri:
+    url: http://localhost:8080
+    status_code: 200
+    timeout: 5
+  register: jenkins_service_status
+  retries: 60
+  delay: 5
+  until:
+    - ('status' in jenkins_service_status)
+    - (jenkins_service_status['status'] == 200)
+
+- name: Install additional groovy scripts
+  jenkins_script:
+      script: "{{ lookup('template', '{{ item }}.groovy') }}"
+      user: "{{ jenkins_admin_username }}"
+      password: "{{ jenkins_admin_password }}"
+  with_items: "{{ jenkins_scripts_list }}"
+  when: jenkins_scripts_enable
