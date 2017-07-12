@@ -26,4 +26,3 @@ TODO
 
 - Java for CentOS support - currently manual java installation is required to use this role.
 - Loops in credentials creation to add multiple credential variables (Jinja)
-- Add jenkins_script module support to run groovy scripts in Jenkins runtime
