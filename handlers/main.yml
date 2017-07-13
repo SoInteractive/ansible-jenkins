@@ -1,11 +1,11 @@
 ---
-- name: restart jenkins
-  service:
-    name: jenkins
-    state: restarted
-
 - name: groovy admin script
   template:
     src: "basic-security.groovy"
     dest: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
   notify: restart jenkins
+
+- name: restart jenkins
+  service:
+    name: jenkins
+    state: restarted
