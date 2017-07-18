@@ -9,8 +9,8 @@ domain = Domain.global()
 store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 
 {% for credential in jenkins_credentials %}
-{{ credential.id }} = new StringCredentialsImpl(
+secret{{ loop.index }}= new StringCredentialsImpl(
     CredentialsScope.GLOBAL, "{{ credential.id }}", "{{ credential.description }}", Secret.fromString("{{ credential.secret }}"))
-store.addCredentials(domain, {{ credential.id }})
+store.addCredentials(domain, secret{{ loop.index }})
 
 {% endfor %}
