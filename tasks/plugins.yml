@@ -70,7 +70,7 @@
     - "sbt"
   register: result
   until: result|succeeded
-  when: jenkins_plugins_check_docker
+  when: jenkins_plugins_docker
   notify: restart jenkins
 
 - name: Install gitlab plugins
@@ -88,7 +88,7 @@
       - "gitlab-plugin"
   register: result
   until: result|succeeded
-  when: jenkins_plugins_check_gitlab
+  when: jenkins_plugins_gitlab
   notify: restart jenkins
 
 - name: Install github plugins
@@ -105,7 +105,7 @@
     - "github-branch-source"
   register: result
   until: result|succeeded
-  when: jenkins_plugins_check_github
+  when: jenkins_plugins_github
   notify: restart jenkins
 
 - name: Install additional plugins
@@ -116,10 +116,10 @@
       url_password: "{{ jenkins_admin_password }}"
       url: http://localhost:8080
       timeout: 60
-  with_items: "{{ jenkins_additional_plugins }}"
+  with_items: "{{ jenkins_plugins_additional }}"
   register: result
   until: result|succeeded
-  when: jenkins_plugins_check_additional
+  when: jenkins_plugins_additional != []
   notify: restart jenkins
 
 - meta: flush_handlers

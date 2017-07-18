@@ -38,13 +38,11 @@
 
 - name: Modify variables in init file
   lineinfile:
-    dest: "{{ jenkins_init_file }}"
-    insertafter: '^{{ item.option }}='
-    regexp: '^{{ item.option}}=\"\${{ item.option }} '
-    line: '{{ item.option }}="${{ item.option }} {{ item.value }}"'
+    dest: "{{ jenkins_system_vars_file }}"
+    insertafter: '^{{ jenkins_system_java_var }}='
+    regexp: '^{{ jenkins_system_java_var }}=\"\${{ jenkins_system_java_var }} '
+    line: '{{ jenkins_system_java_var }}="${{ jenkins_system_java_var }} -Djenkins.install.runSetupWizard=false"'
     state: present
-  with_items:
-      "{{ jenkins_init_changes }}"
   notify: restart jenkins
 
 - name: Create custom init scripts directory.
