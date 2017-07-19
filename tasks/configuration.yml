@@ -32,4 +32,5 @@
     path: "{{ jenkins_home }}/init.groovy.d/{{ item }}"
     state: absent
   with_items:
+    - "basic-security.groovy"
     - "secret-text-credentials.groovy"
