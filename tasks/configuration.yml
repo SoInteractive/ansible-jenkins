@@ -16,7 +16,7 @@
   until:
     - ('status' in jenkins_service_status)
     - (jenkins_service_status['status'] == 200) or (jenkins_service_status['status'] == 403)
-    
+
 - name: Get the jenkins-cli jarfile from the Jenkins server.
   get_url:
     url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/jnlpJars/jenkins-cli.jar"
