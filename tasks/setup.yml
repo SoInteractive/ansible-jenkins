@@ -33,7 +33,7 @@
 - name: Install Jenkins from repository.
   package:
     name: jenkins
-    state: installed
+    state: "{{ 'latest' if jenkins_upgrade else 'installed' }}"
   notify: groovy admin script
 
 - name: Modify variables in init file
