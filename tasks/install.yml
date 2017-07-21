@@ -34,7 +34,9 @@
   package:
     name: jenkins
     state: "{{ 'latest' if jenkins_upgrade else 'installed' }}"
-  notify: groovy admin script
+  notify:
+  - groovy admin script
+  - restart jenkins
 
 - name: Modify variables in init file
   lineinfile:

@@ -4,6 +4,7 @@
     src: "basic-security.groovy"
     dest: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
   notify: restart jenkins
+  when: not jenkins_upgrade
 
 - name: restart jenkins
   service:
