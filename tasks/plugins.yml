@@ -19,6 +19,7 @@
 - name: Install default plugins
   jenkins_plugin:
     name: "{{ item }}"
+    state: "{{ 'latest' if jenkins_upgrade else 'present' }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
@@ -57,6 +58,7 @@
 - name: Install docker plugins
   jenkins_plugin:
     name: "{{ item }}"
+    state: "{{ 'latest' if jenkins_upgrade else 'present' }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
@@ -76,6 +78,7 @@
 - name: Install gitlab plugins
   jenkins_plugin:
     name: "{{ item }}"
+    state: "{{ 'latest' if jenkins_upgrade else 'present' }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
@@ -94,6 +97,7 @@
 - name: Install github plugins
   jenkins_plugin:
     name: "{{ item }}"
+    state: "{{ 'latest' if jenkins_upgrade else 'present' }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"
@@ -111,6 +115,7 @@
 - name: Install additional plugins
   jenkins_plugin:
     name: "{{ item }}"
+    state: "{{ 'latest' if jenkins_upgrade else 'present' }}"
     params:
       url_username: "{{ jenkins_admin_username }}"
       url_password: "{{ jenkins_admin_password }}"

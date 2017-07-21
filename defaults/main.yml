@@ -4,6 +4,8 @@ jenkins_hostname: localhost
 jenkins_http_port: 8080
 jenkins_jar_location: /opt/jenkins-cli.jar
 
+jenkins_upgrade: false
+
 jenkins_plugins_docker: false
 jenkins_plugins_gitlab: false
 jenkins_plugins_github: false
