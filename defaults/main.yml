@@ -18,6 +18,12 @@ jenkins_credentials:
     description: "Description"
     secret: "secret_text"
 
+jenkins_tokens:
+  - id: "123"
+    description: "Description"
+    username: "token"
+    token: "secret_token"
+
 jenkins_admin_username: admin
 jenkins_admin_password: admin
 jenkins_admin_password_file: ""
@@ -25,3 +31,4 @@ jenkins_admin_password_file: ""
 jenkins_scripts_enable: True
 jenkins_scripts_list:
   - "secret-text-credentials"
+  - "github-token"

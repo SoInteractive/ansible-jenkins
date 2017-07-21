@@ -33,4 +33,3 @@
     state: absent
   with_items:
     - "basic-security.groovy"
-    - "secret-text-credentials.groovy"
