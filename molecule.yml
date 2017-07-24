@@ -8,8 +8,9 @@ verifier:
 docker:
   containers:
     - name: jenkins-xenial
-      image: ubuntu
-      image_version: xenial
+      image: solita/ubuntu-systemd
+      image_version: 16.04
+      privileged: yes
 #    - name: jenkins-centos
 #      image: centos/systemd
 #      image_version: latest

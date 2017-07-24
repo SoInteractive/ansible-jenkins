@@ -5,49 +5,62 @@ testinfra_hosts = AnsibleRunner('.molecule/ansible_inventory').get_hosts('all')
 
 def test_directories(File):
     present = [
-        "/var/lib/jenkins"
+        "/var/lib/jenkins",
+        "/var/lib/jenkins/init.groovy.d"
     ]
-    if present:
-        for directory in present:
-            d = File(directory)
-            assert d.is_directory
-            assert d.exists
+    for directory in present:
+        d = File(directory)
+        assert d.is_directory
+        assert d.exists
 
 
-def test_files(File):
+def test_files(File, SystemInfo):
+    if SystemInfo.distribution == 'centos':
+        CONF = '/etc/sysconfig/jenkins'
+    else:
+        CONF = '/etc/default/jenkins'
     present = [
+        CONF,
+        "/opt/jenkins-cli.jar"
     ]
-    if present:
-        for file in present:
-            f = File(file)
-            assert f.exists
-            assert f.is_file
+    absent = [
+        "/var/lib/jenkins/init.groovy.d/basic-security.groovy",
+        "/var/lib/jenkins/init.groovy.d/secret-text-credentials.groovy"
+    ]
+
+    for file in present:
+        f = File(file)
+        assert f.exists
+        assert f.is_file
+
+    for file in absent:
+        f = File(file)
+        assert not f.exists
 
 
 def test_service(Service):
     present = [
         "jenkins"
     ]
-    if present:
-        for service in present:
-            s = Service(service)
-            assert s.is_enabled
+    for service in present:
+        s = Service(service)
+        assert s.is_enabled
+        assert s.is_running
 
 
 def test_packages(Package):
     present = [
         "jenkins"
     ]
-    if present:
-        for package in present:
-            p = Package(package)
-            assert p.is_installed
+    for package in present:
+        p = Package(package)
+        assert p.is_installed
 
 
-# def test_socket(Socket):
-#      present = [
-#          "tcp://127.0.0.1:8080"
-#      ]
-#      for socket in present:
-#          s = Socket(socket)
-#          assert s.is_listening
+def test_socket(Socket):
+    present = [
+        "tcp://0.0.0.0:8080"
+    ]
+    for socket in present:
+        s = Socket(socket)
+        assert s.is_listening
