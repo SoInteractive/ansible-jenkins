@@ -24,6 +24,10 @@ jenkins_admin_username: admin
 jenkins_admin_password: admin
 jenkins_admin_password_file: ""
 
+jenkins_viewer_username: viewer
+jenkins_viewer_password: viewer
+
 jenkins_scripts_enable: True
 jenkins_scripts_list:
   - "secret-text-credentials"
+  - "matrix-security"
