@@ -1,7 +1,7 @@
 ---
 ansible:
   playbook: tests/playbook.yml
-  verbose: vvv
+#  verbose: vvv
 driver:
   name: docker
 verifier:
@@ -12,8 +12,6 @@ docker:
       image: solita/ubuntu-systemd
       image_version: 16.04
       privileged: yes
-      port_bindings:
-        8080: 8080
 #    - name: jenkins-centos
 #      image: centos/systemd
 #      image_version: latest
