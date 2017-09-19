@@ -51,6 +51,7 @@
     - "ssh-slaves"
     - "greenballs"
     - "mattermost"
+    - "matrix-auth"
   register: result
   until: result|succeeded
   notify: restart jenkins
