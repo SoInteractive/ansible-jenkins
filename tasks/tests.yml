@@ -1,0 +1,35 @@
+---
+- name: Check if conf file exists
+  stat:
+    path: /etc/default/jenkins
+  register: st
+  failed_when: st.stat.exists != True
+
+- name: Check if cli exists
+  stat:
+    path: /opt/jenkins-cli.jar
+  register: st
+  failed_when: st.stat.exists != True
+
+- name: Check if jenkins home dir exists
+  stat:
+    path: /var/lib/jenkins/
+  register: st
+  failed_when: st.stat.exists != True
+
+- name: Check if security script exist (it shouldn't)
+  stat:
+    path: /var/lib/jenkins/init.groovy.d/basic-security.groovy
+  register: st
+  failed_when: st.stat.exists == True
+
+- name: Check if credentials script exist (it shouldn't)
+  stat:
+    path: /var/lib/jenkins/init.groovy.d/secret-text-credentials.groovy
+  register: st
+  failed_when: st.stat.exists == True
+
+- name: Check if jenkins is running
+  uri:
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/"
+    status_code: 200,403
