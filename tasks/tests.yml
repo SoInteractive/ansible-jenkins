@@ -32,4 +32,4 @@
 - name: Check if jenkins is running
   uri:
     url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/"
-    status_code: 200,403
+    status_code: 200,401
