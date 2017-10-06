@@ -51,6 +51,7 @@
     - "ssh-slaves"
     - "greenballs"
     - "mattermost"
+    - "matrix-auth"
     - "ansicolor"
   register: result
   until: result|succeeded
