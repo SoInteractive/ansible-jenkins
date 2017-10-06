@@ -51,6 +51,7 @@
     - "ssh-slaves"
     - "greenballs"
     - "mattermost"
+    - "ansicolor"
   register: result
   until: result|succeeded
   notify: restart jenkins
