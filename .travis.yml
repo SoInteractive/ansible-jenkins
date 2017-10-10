@@ -32,10 +32,12 @@ branches:
 notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
 after_success:
-  - export MESSAGE="Travis build has finished successfully. Branch $TRAVIS_BRANCH on repository http://$GIT_URL"
+  - export GIT_URL=$(git config --get remote.origin.url)
+  - export MESSAGE="Travis build has finished successfully. Branch $TRAVIS_BRANCH on repository $GIT_URL"
   - >
     curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"$MESSAGE\", \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "$MM_WEBHOOK"
 after_failure:
+  - export GIT_URL=$(git config --get remote.origin.url)
   - export MESSAGE="Travis build has failed. Branch $TRAVIS_BRANCH on repository http://$GIT_URL"
   - >
     curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"$MESSAGE\", \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "$MM_WEBHOOK"
