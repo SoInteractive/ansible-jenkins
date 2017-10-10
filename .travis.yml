@@ -31,3 +31,7 @@ branches:
     - /^\d+\.\d+\.\d+$/
 notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
+after_success:
+  - curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}\", \"icon_url\": \"https://cdn2.iconfinder.com/data/icons/snipicons/500/login-512.png\"}" "${MM_WEBHOOK}" &>/dev/null
+ after_failure:
+  - curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}\", \"icon_url\": \"https://cdn2.iconfinder.com/data/icons/snipicons/500/login-512.png\"}" "${MM_WEBHOOK}" &>/dev/null
