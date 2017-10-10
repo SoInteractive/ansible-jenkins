@@ -35,11 +35,11 @@ notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
 after_success:
   - export GIT_URL=$(git config --get remote.origin.url)
-  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export MESSAGE="Travis build no. $TRAVIS_BUILD_NUMBER has finished successfully. Pull request no. $TRAVIS_PULL_REQUEST can be found on https://github.com/${TRAVIS_REPO_SLUG}pull/${TRAVIS_PULL_REQUEST}"  ; else export MESSAGE="Travis build no. $TRAVIS_BUILD_NUMBER has finished successfully. Tag $GIT_TAG can be found on https://github.com/${TRAVIS_REPO_SLUG}releases/tag/${GIT_TAG}"; fi
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export MESSAGE="Travis build no. $TRAVIS_BUILD_NUMBER has finished successfully. Pull request no. $TRAVIS_PULL_REQUEST can be found on https://github.com/${TRAVIS_REPO_SLUG}/pull/${TRAVIS_PULL_REQUEST}"  ; else export MESSAGE="Travis build no. $TRAVIS_BUILD_NUMBER has finished successfully. Tag $GIT_TAG can be found on https://github.com/${TRAVIS_REPO_SLUG}/releases/tag/${GIT_TAG}"; fi
   - >
     curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"$MESSAGE\", \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "$MM_WEBHOOK"
 after_failure:
   - export GIT_URL=$(git config --get remote.origin.url)
-  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export MESSAGE="Travis build no. $TRAVIS_BUILD_NUMBER has failed. Pull request no. $TRAVIS_PULL_REQUEST can be found on https://github.com/${TRAVIS_REPO_SLUG}pull/${TRAVIS_PULL_REQUEST}"  ; else export MESSAGE="Travis build no. $TRAVIS_BUILD_NUMBER has finished successfully. Check for problems on https://github.com/${TRAVIS_REPO_SLUG}tree/master"; fi
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export MESSAGE="Travis build no. $TRAVIS_BUILD_NUMBER has failed. Pull request no. $TRAVIS_PULL_REQUEST can be found on https://github.com/${TRAVIS_REPO_SLUG}/pull/${TRAVIS_PULL_REQUEST}"  ; else export MESSAGE="Travis build no. $TRAVIS_BUILD_NUMBER has finished successfully. Check for problems on https://github.com/${TRAVIS_REPO_SLUG}/tree/master"; fi
   - >
     curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"$MESSAGE\", \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "$MM_WEBHOOK"
