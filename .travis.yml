@@ -32,8 +32,10 @@ branches:
 notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
 after_success:
+  - export MESSAGE="Travis build has finished successfully. Branch $TRAVIS_BRANCH on repository http://$GIT_URL"
   - >
-    curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}\", \"icon_url\": \"https://cdn2.iconfinder.com/data/icons/snipicons/500/login-512.png\"}" "${MM_WEBHOOK}" &>/dev/null
+    curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"$MESSAGE\", \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "$MM_WEBHOOK"
 after_failure:
+  - export MESSAGE="Travis build has failed. Branch $TRAVIS_BRANCH on repository http://$GIT_URL"
   - >
-    curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}\", \"icon_url\": \"https://cdn2.iconfinder.com/data/icons/snipicons/500/login-512.png\"}" "${MM_WEBHOOK}" &>/dev/null
+    curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"$MESSAGE\", \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "$MM_WEBHOOK"
