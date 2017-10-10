@@ -27,8 +27,10 @@ deploy:
     branch: master
 #do not start when tag is added
 branches:
-  except:
-    - /^\d+\.\d+\.\d+$/
+  only:
+  - master
+#  except:
+#    - /^\d+\.\d+\.\d+$/
 notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
 after_success:
