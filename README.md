@@ -1,4 +1,3 @@
-
 <p><img src="https://wiki.jenkins-ci.org/download/attachments/2916393/logo-title.png?version=1&modificationDate=1302753947000&api=v2" alt="jenkins logo" title="jenkins" align="right" height="60" /></p>
 
 Ansible Role: jenkins
