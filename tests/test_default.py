@@ -55,12 +55,3 @@ def test_packages(Package):
     for package in present:
         p = Package(package)
         assert p.is_installed
-
-
-def test_socket(Socket):
-    present = [
-        "tcp://0.0.0.0:8080"
-    ]
-    for socket in present:
-        s = Socket(socket)
-        assert s.is_listening
