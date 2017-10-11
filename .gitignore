@@ -1,7 +1,6 @@
 *.retry
 tests/test.sh
 .idea
-.travis.yml
 *.swp
 *.swo
 *.idea
