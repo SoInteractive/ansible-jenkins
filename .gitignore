@@ -1,5 +1,4 @@
 *.retry
-tests/test.sh
 .idea
 *.swp
 *.swo
