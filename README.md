@@ -1,6 +1,6 @@
 <p><img src="https://wiki.jenkins-ci.org/download/attachments/2916393/logo-title.png?version=1&modificationDate=1302753947000&api=v2" alt="jenkins logo" title="jenkins" align="right" height="60" /></p>
 
-Ansible Role: jenkins
+Ansible Role: ansible-jenkins
 ===================
 
 [![Build Status](https://travis-ci.org/SoInteractive/jenkins.svg?branch=master)](https://travis-ci.org/SoInteractive/jenkins)[![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Ansible Role](https://img.shields.io/ansible/role/18278.svg)](https://galaxy.ansible.com/SoInteractive/jenkins/) [![Twitter URL](https://img.shields.io/twitter/follow/sointeractive.svg?style=social&label=Follow%20%40SoInteractive)](https://twitter.com/sointeractive)
@@ -15,7 +15,7 @@ Use it in a playbook as follows:
 - hosts: all
   become: true
   roles:
-    - SoInteractive.jenkins
+    - SoInteractive.ansible-jenkins
 ```
 
 Have a look at the [defaults/main.yml](defaults/main.yml) for role variables
