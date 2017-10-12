@@ -56,7 +56,6 @@ def test_packages(Package):
         p = Package(package)
         assert p.is_installed
 
-
 """
 def test_socket(Socket):
     present = [
