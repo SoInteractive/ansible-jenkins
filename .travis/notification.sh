@@ -30,6 +30,5 @@ else
   failure
   COLOR="#FF0000"
 fi
-echo "### $MESSAGE ###"
-curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"attachments\": [{ \"color\": \"$COLOR\", \"text\": \"OK\" }], \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "${MM_WEBHOOK}"
+
 curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"attachments\": [{ \"color\": \"$COLOR\", \"text\": \"$MESSAGE\" }], \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "${MM_WEBHOOK}"
