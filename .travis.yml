@@ -5,9 +5,9 @@ services:
 install:
   - pip install ansible==2.3.2 molecule==1.25.0 docker git-semver
 script:
-  - chmod +x ./.travis/test.sh && bash ./.travis/test.sh
+  - ./.travis/test.sh
 before_deploy:
-  - chmod +x ./.travis/bdeploy.sh && bash ./.travis/bdeploy.sh
+  - ./.travis/bdeploy.sh
 deploy:
   provider: script
   skip_cleanup: true
@@ -24,6 +24,6 @@ tags:
 notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
 after_success:
-  - chmod +x ./.travis/after.sh && bash ./.travis/after.sh
+  - ./.travis/after.sh
 after_failure:
-  - chmod +x ./.travis/after.sh && bash ./.travis/after.sh
+  - ./.travis/after.sh
