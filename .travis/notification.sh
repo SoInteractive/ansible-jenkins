@@ -25,8 +25,6 @@ function failure {
   fi
 
   curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"attachments\": [{ \"color\": \"#FF0000\", \"text\": \"$MESSAGE\" }], \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "$MM_WEBHOOK"
-
-  molecule destroy
 }
 
 if [ "$TRAVIS_TEST_RESULT" == "0" ]

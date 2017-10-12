@@ -5,9 +5,10 @@ services:
 install:
   - pip install ansible==2.3.2 molecule==1.25.0 docker git-semver
 script:
-  - ./.travis/test.sh
+  - if [ -f requirements.yml ]; then ansible-galaxy install -r requirements.yml -p .molecule/roles/. ; fi
+  - molecule test
 before_deploy:
-  - ./.travis/bdeploy.sh
+  - ./.travis/generatetag.sh
 deploy:
   provider: script
   skip_cleanup: true
@@ -24,6 +25,6 @@ tags:
 notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
 after_success:
-  - ./.travis/after.sh
+  - ./.travis/notification.sh
 after_failure:
-  - ./.travis/after.sh
+  - ./.travis/notification.sh
