@@ -5,9 +5,9 @@ services:
 install:
   - pip install ansible==2.3.2 molecule==1.25.0 docker git-semver
 script:
-  - ./.travis/script.sh
+  - ./script.sh
 before_deploy:
-  - ./.travis/bdeploy.sh
+  - ./bdeploy.sh
 deploy:
   provider: script
   skip_cleanup: true
