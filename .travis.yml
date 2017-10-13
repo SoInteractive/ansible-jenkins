@@ -26,5 +26,7 @@ notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
 after_success:
   - ./.travis/notification.sh
+  - >
+    curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"attachments\": [{ \"color\": \"$COLOR\", \"text\": \"$MESSAGE\" }], \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "${MM_WEBHOOK}"
 after_failure:
   - ./.travis/notification.sh
