@@ -18,3 +18,5 @@
       password: "{{ jenkins_admin_password }}"
   with_items: "{{ jenkins_scripts_list }}"
   when: jenkins_scripts_enable
+  retries: 5
+  delay: 5
