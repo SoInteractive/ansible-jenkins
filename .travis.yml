@@ -26,4 +26,3 @@ notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
 after_script:
   - ./.travis/notification.sh
-
