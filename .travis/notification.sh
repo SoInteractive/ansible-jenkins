@@ -1,37 +1,40 @@
-#!/bin/bash
-
-function success {
-  export GIT_COMMITER=$(git show -s --pretty=%an)
-  export GIT_TAG=$([[ "$TRAVIS_COMMIT_MESSAGE" =~ ("Merge pull request".*/feature.*) ]] && git semver --next-minor || git semver --next-patch )
-
-  if [ "$TRAVIS_PULL_REQUEST" != "false" ]
-  then
-    export MESSAGE="Travis [build no. $TRAVIS_BUILD_NUMBER](travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) has finished successfully. Pull request no. $TRAVIS_PULL_REQUEST opened by $GIT_COMMITER can be found [here](https://github.com/${TRAVIS_REPO_SLUG}/pull/${TRAVIS_PULL_REQUEST})."
-  else
-    export MESSAGE="Travis [build no. $TRAVIS_BUILD_NUMBER](travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) has finished successfully. Tag [${GIT_TAG}](https://github.com/${TRAVIS_REPO_SLUG}/releases/tag/${GIT_TAG}) was pushed to master by ${GIT_COMMITER}."
-  fi
-
-  curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"attachments\": [{ \"color\": \"#00FF00\", \"text\": \"$MESSAGE\" }], \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "$MM_WEBHOOK"
-}
-
-function failure {
-  export GIT_COMMITER=$(git show -s --pretty=%an)
-
-  if [ "$TRAVIS_PULL_REQUEST" != "false" ]
-  then
-    export MESSAGE="Travis [build no. $TRAVIS_BUILD_NUMBER](travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) has failed. Pull request no. $TRAVIS_PULL_REQUEST can be found [here](https://github.com/${TRAVIS_REPO_SLUG}/pull/${TRAVIS_PULL_REQUEST})."
-  else
-    export MESSAGE="Travis [build no. $TRAVIS_BUILD_NUMBER](travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) has failed. Please check for problems on branch [master](https://github.com/${TRAVIS_REPO_SLUG}/tree/master) which was pushed by ${GIT_COMMITER} on repo [$TRAVIS_REPO_SLUG](https://github.com/$TRAVIS_REPO_SLUG)."
-  fi
-
-  curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"attachments\": [{ \"color\": \"#FF0000\", \"text\": \"$MESSAGE\" }], \"icon_url\": \"https://maxcdn.icons8.com/office/PNG/512/Programming/bot_80-512.png\"}" "$MM_WEBHOOK"
-
-  molecule destroy
-}
-
-if [ "$TRAVIS_TEST_RESULT" == "0" ]
-then
-  success
-else
-  failure
-fi
+sudo: required
+language: python
+services:
+  - docker
+install:
+  - pip install ansible==2.3.2 molecule==1.25.0 docker
+script:
+  - if [ -f requirements.yml ]; then ansible-galaxy install -r requirements.yml -p .molecule/roles/. ; fi
+  - molecule syntax
+  - molecule create
+  - molecule converge
+  - molecule idempotence
+  - molecule verify
+  - molecule destroy
+before_deploy:
+  - git config --global user.email "soibot@sointeractive.pl"
+  - git config --global user.name "soi-bot"
+  - export GIT_TAG=$([[ "$TRAVIS_COMMIT_MESSAGE" =~ ("Merge pull request".*/feature.*) ]] && git describe --abbrev=0 --tags | awk -F '.' '{print $1"."($2+1)"."0}' || git describe --abbrev=0 --tags | awk -F '.' '{print $1"."$2"."($3+1)}')
+  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
+  - export GIT_URL=$(git config --get remote.origin.url)
+  - export GIT_URL=${GIT_URL#*//}
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: git push https://${GH_TOKEN}:@${GIT_URL} --tags
+  on:
+    branch: master
+#do not start when tag is added
+branches:
+  only:
+    - master
+tags:
+  except:
+    - /^\d+\.\d+\.\d+$/
+notifications:
+    webhooks: https://galaxy.ansible.com/api/v1/notifications/
+after_success:
+  - ./.travis/notification.sh
+after_failure:
+  - ./.travis/notification.sh
