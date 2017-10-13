@@ -3,19 +3,18 @@ language: python
 services:
   - docker
 install:
-#  - pip install ansible==2.3.2 molecule==1.25.0 docker git-semver
-  - pip install ansible==2.3.2
+  - pip install ansible==2.3.2 molecule==1.25.0 docker git-semver
 script:
   - if [ -f requirements.yml ]; then ansible-galaxy install -r requirements.yml -p .molecule/roles/. ; fi
-#  - molecule test
-#before_deploy:
-#  - ./.travis/generatetag.sh
-#deploy:
-#  provider: script
-#  skip_cleanup: true
-#  script: git push https://${GH_TOKEN}:@${GIT_URL} --tags
-#  on:
-#    branch: master
+  - molecule test
+before_deploy:
+  - ./.travis/generatetag.sh
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: git push https://${GH_TOKEN}:@${GIT_URL} --tags
+  on:
+    branch: master
 #do not start when tag is added
 branches:
   only:
@@ -23,8 +22,8 @@ branches:
 tags:
   except:
     - /^\d+\.\d+\.\d+$/
-#notifications:
-#    webhooks: https://galaxy.ansible.com/api/v1/notifications/
+notifications:
+    webhooks: https://galaxy.ansible.com/api/v1/notifications/
 after_script:
   - ./.travis/notification.sh
 
