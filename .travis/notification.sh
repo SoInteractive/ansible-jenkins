@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function success {
-  GIT_TAG=$([[ "$TRAVIS_COMMIT_MESSAGE" =~ ("Merge pull request".*/feature.*) ]] && git semver --next-minor || git semver --next-patch )
+  GIT_TAG=$(git semver)
   echo $GIT_TAG
   if [ "$TRAVIS_PULL_REQUEST" != "false" ]
   then
