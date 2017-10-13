@@ -3,7 +3,7 @@
 Ansible Role: jenkins
 ===================
 
-[![Build Status](https://travis-ci.org/SoInteractive/ansible-role-jenkins.svg?branch=master)](https://travis-ci.org/SoInteractive/ansible-role-jenkins) [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Ansible Role](https://img.shields.io/ansible/role/18278.svg)](https://galaxy.ansible.com/SoInteractive/jenkins/) [![Twitter URL](https://img.shields.io/twitter/follow/sointeractive.svg?style=social&label=Follow%20%40SoInteractive)](https://twitter.com/sointeractive)
+[![Build Status](https://travis-ci.org/SoInteractive/ansible-jenkins.svg?branch=master)](https://travis-ci.org/SoInteractive/ansible-jenkins) [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Ansible Role](https://img.shields.io/ansible/role/18278.svg)](https://galaxy.ansible.com/SoInteractive/jenkins/) [![Twitter URL](https://img.shields.io/twitter/follow/sointeractive.svg?style=social&label=Follow%20%40SoInteractive)](https://twitter.com/sointeractive)
 
 Role to install Jenkins with basic configuration (admin account, plugins, system variables)
 
