@@ -12,7 +12,8 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: git push https://${GH_TOKEN}:@${GIT_URL} --tags
+  script:
+    - ./.travis/generatetag.sh
   on:
     branch: master
 #do not start when tag is added
