@@ -7,12 +7,11 @@ install:
 script:
   - if [ -f requirements.yml ]; then ansible-galaxy install -r requirements.yml -p .molecule/roles/. ; fi
   - molecule test
-before_deploy:
-  - ./.travis/generatetag.sh
 deploy:
   provider: script
   skip_cleanup: true
-  script: git push https://${GH_TOKEN}:@${GIT_URL} --tags
+  script:
+    - ./.travis/generatetag.sh
   on:
     branch: master
 #do not start when tag is added
