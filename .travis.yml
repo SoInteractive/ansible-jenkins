@@ -27,6 +27,6 @@ notifications:
 after_success:
   - ./.travis/notification.sh
   - >
-    curl -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"test1234\"}" "$MM_WEBHOOK"
+    curl -vvv -X POST --data-urlencode "payload={\"username\": \"soi\", \"text\": \"test1234\"}" "$MM_WEBHOOK"
 after_failure:
   - ./.travis/notification.sh
