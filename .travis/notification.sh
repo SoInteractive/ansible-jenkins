@@ -5,7 +5,8 @@ function success {
 
   if [ "$TRAVIS_PULL_REQUEST" != "false" ]
   then
-    MESSAGE="Travis [build no. $TRAVIS_BUILD_NUMBER](travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) has finished successfully. Pull request no. $TRAVIS_PULL_REQUEST opened by $GIT_COMMITER can be found [here](https://github.com/${TRAVIS_REPO_SLUG}/pull/${TRAVIS_PULL_REQUEST})."
+    #MESSAGE="Travis [build no. $TRAVIS_BUILD_NUMBER](travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) has finished successfully. Pull request no. $TRAVIS_PULL_REQUEST opened by $GIT_COMMITER can be found [here](https://github.com/${TRAVIS_REPO_SLUG}/pull/${TRAVIS_PULL_REQUEST})."
+    MESSAGE="testing success string"
   else
     MESSAGE="Travis [build no. $TRAVIS_BUILD_NUMBER](travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) has finished successfully. Tag [${GIT_TAG}](https://github.com/${TRAVIS_REPO_SLUG}/releases/tag/${GIT_TAG}) was pushed to master by ${GIT_COMMITER}."
   fi
