@@ -21,6 +21,10 @@ function failure {
   fi
 }
 
+if [ -z "$MM_WEBHOOK" ]
+  echo "MM_WEBHOOK variable is not set!"
+  exit 0
+fi
 
 GIT_COMMITER=$(git show -s --pretty=%an)
 echo $GIT_COMMITER
