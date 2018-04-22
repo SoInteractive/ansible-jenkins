@@ -10,6 +10,10 @@ This repository is no longer maintained and we won't accept any PRs.
 
 Role to install Jenkins with basic configuration (admin account, plugins, system variables)
 
+# :warning: IMPORTANT NOTICE
+
+THIS PROJECT IS ABANDONED. WE DO NOT ACCEPT ANY NEW ISSUES AND/OR PULL REQUESTS.
+
 Example usage
 -------------
 
