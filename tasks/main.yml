@@ -9,3 +9,6 @@
 - include: plugins.yml
 
 - include: scripts.yml
+
+- include: tests.yml
+  when: fresh_install.changed

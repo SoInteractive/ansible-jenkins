@@ -45,6 +45,7 @@
     regexp: '^{{ jenkins_system_java_var }}=\"\${{ jenkins_system_java_var }} '
     line: '{{ jenkins_system_java_var }}="${{ jenkins_system_java_var }} -Djenkins.install.runSetupWizard=false"'
     state: present
+  register: fresh_install
   notify: restart jenkins
 
 - name: Create custom init scripts directory.
