@@ -52,6 +52,7 @@
     - "greenballs"
     - "mattermost"
     - "matrix-auth"
+    - "ansicolor"
   register: result
   until: result|succeeded
   notify: restart jenkins
